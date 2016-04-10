@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -112,7 +111,7 @@ public class MoviesFragment extends Fragment {
             return mBaseImgPath + posterImgName;
         }
 
-        private Movie[] getMovies(JSONObject result) {
+        private List<Movie> getMovies(JSONObject result) {
             List<Movie> images = new ArrayList<>();
             try {
                 JSONArray moviesArray = result.getJSONArray("results");
@@ -130,7 +129,7 @@ public class MoviesFragment extends Fragment {
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
-            return images.toArray(new Movie[images.size()]);
+            return images;
         }
 
         private JSONObject doRequest(Uri uri) {
@@ -198,7 +197,7 @@ public class MoviesFragment extends Fragment {
                         mBaseImgPath = Uri.parse(((JSONObject) result).getJSONObject("images").getString("base_url"))
                                         .buildUpon().appendPath("w342").toString();
                     } else if (mAction == DO_DATA_REQ) {
-                        mMoviesAdapter.addAll((Movie[]) result);
+                        mMoviesAdapter.addAll((List<Movie>) result);
                     }
                 }
                 else {

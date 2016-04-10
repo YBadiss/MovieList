@@ -2,7 +2,6 @@ package com.example.yacinebadiss.movielist;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,32 +9,36 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yacinebadiss on 09/04/2016.
  */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private Movie[] mItems;
+    private List<Movie> mItems;
 
     public ImageAdapter(Context c) {
         mContext = c;
-        mItems = new Movie[0];
+        mItems = new ArrayList<>();
     }
 
     public int getCount() {
-        return mItems.length;
+        return mItems.size();
     }
 
     public Object getItem(int position) {
-        return mItems[position];
+        return mItems.get(position);
     }
 
     public long getItemId(int position) {
-        return Long.parseLong(mItems[position].mId);
+        return Long.parseLong(mItems.get(position).mId);
     }
 
-    public void addAll(Movie[] items) {
-        mItems = items;
+    public void addAll(List<Movie> items) {
+        mItems.clear();
+        mItems.addAll(items);
         notifyDataSetChanged();
     }
 
@@ -49,7 +52,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Movie m = mItems[position];
+        Movie m = mItems.get(position);
         imageView.setImageDrawable(m.mPoster);
         imageView.setTag(R.id.tag_movie_id, m.mId);
         imageView.setTag(R.id.tag_movie_title, m.mTitle);
