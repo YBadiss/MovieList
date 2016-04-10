@@ -2,6 +2,7 @@ package com.example.yacinebadiss.movielist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,11 @@ import java.util.List;
  * Created by yacinebadiss on 09/04/2016.
  */
 public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
+    private Activity mActivity;
     private List<Movie> mItems;
 
-    public ImageAdapter(Context c) {
-        mContext = c;
+    public ImageAdapter(Activity activity) {
+        mActivity = activity;
         mItems = new ArrayList<>();
     }
 
@@ -47,7 +48,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, final View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+            LayoutInflater inflater = mActivity.getLayoutInflater();
             imageView = (ImageView) inflater.inflate(R.layout.grid_item_movie, parent, false);
         } else {
             imageView = (ImageView) convertView;
@@ -59,7 +60,9 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, (String) v.getTag(R.id.tag_movie_title), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mActivity, MovieDetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT, (String) v.getTag(R.id.tag_movie_title));
+                mActivity.startActivity(intent);
             }
         });
         return imageView;
